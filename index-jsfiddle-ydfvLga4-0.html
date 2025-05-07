@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>JSFiddle ydfvLga4</title>
+
+  <style>
+    
+  </style>
+
+  
+</head>
+<body>
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Otaku Store</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: url('https://wallpapercave.com/wp/wp7050480.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: white;
+    }
+    header {
+      background-color: rgba(0, 0, 0, 0.7);
+      padding: 20px;
+      text-align: center;
+      font-size: 2em;
+      font-weight: bold;
+    }
+    nav {
+      text-align: center;
+      margin-top: 10px;
+    }
+    nav a {
+      color: #1abc9c;
+      margin: 0 15px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .sections {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      padding: 40px;
+    }
+    .section {
+      background-color: rgba(0, 0, 0, 0.6);
+      border-radius: 15px;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 0 10px #000;
+    }
+    .section img {
+      max-width: 100%;
+      border-radius: 10px;
+    }
+    .section h2 {
+      margin: 10px 0;
+    }
+    .price {
+      color: #1abc9c;
+      font-size: 1.2em;
+      margin: 10px 0;
+    }
+    .section button {
+      background-color: #25D366;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      margin-top: 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1em;
+    }
+    .section button:hover {
+      background-color: #128C7E;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    Otaku Store - Anime & Manga Merch
+    <nav>
+      <a href="contact.html">Contact Us</a>
+    </nav>
+  </header>
+
+  <div class="sections">
+    <div class="section">
+      <img src="https://m.media-amazon.com/images/I/81Ay5QhdkFL.jpg" alt="Manga Book" />
+      <h2>Manga Book</h2>
+      <p class="price">$12.99</p>
+      <p>Latest Hunter x Hunter manga volume.</p>
+      <button onclick="orderNow('Manga Book')">Order Now</button>
+    </div>
+    <div class="section">
+      <img src="https://cdn.shopify.com/s/files/1/0558/6417/2636/products/1_1100x.jpg?v=1632287531" alt="Stickers" />
+      <h2>Sticker Pack</h2>
+      <p class="price">$4.99</p>
+      <p>High-quality anime stickers set (10 pcs).</p>
+      <button onclick="orderNow('Sticker Pack')">Order Now</button>
+    </div>
+    <div class="section">
+      <img src="https://i.etsystatic.com/23519048/r/il/87b469/3057343936/il_570xN.3057343936_j5vm.jpg" alt="Clothing" />
+      <h2>Hunter Hoodie</h2>
+      <p class="price">$29.99</p>
+      <p>Comfy hoodie featuring Gon and Killua.</p>
+      <button onclick="orderNow('Hunter Hoodie')">Order Now</button>
+    </div>
+    <div class="section">
+      <img src="https://i.etsystatic.com/19317425/r/il/f4aefe/3789842867/il_794xN.3789842867_3nsc.jpg" alt="Accessories" />
+      <h2>Keychain Set</h2>
+      <p class="price">$6.99</p>
+      <p>4 anime character keychains (metal).</p>
+      <button onclick="orderNow('Keychain Set')">Order Now</button>
+    </div>
+  </div>
+
+  <script>
+    function orderNow(productName) {
+      const phone = '213798445740';
+      const message = encodeURIComponent(`Hello! I would like to order: ${productName}`);
+      const url = `https://web.whatsapp.com/send?phone=${phone}&text=${message}`;
+      window.open(url, '_blank');
+    }
+  </script>
+</body>
+</html>
+
+
+  <script>
+    
+  </script>
+</body>
+</html>
