@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تحديد مجموعة الدم</title>
+    <title>تبادل الدم (التبرع)</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -22,130 +22,27 @@
             font-size: 2.5em;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
         }
-        .person-list {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 20px;
-        }
-        .person-card {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            padding: 20px;
-            width: 200px;
+        .transfusion {
             text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 15px;
             box-shadow: 0 8px 32px rgba(0,0,0,0.3);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.2);
-            cursor: pointer;
-            transition: transform 0.3s;
+            max-width: 600px;
+            width: 100%;
         }
-        .person-card:hover {
-            transform: scale(1.05);
-        }
-        .experiment {
-            text-align: center;
-        }
-        .blood-spot {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            background: #8B0000;
-            margin: 20px auto;
-            position: relative;
-            transition: all 0.3s ease;
-        }
-        .blood-spot.clumped {
-            background: #FFB6C1;
-            animation: clump 1s ease-in-out;
-        }
-        @keyframes clump {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.2); }
-            100% { transform: scale(1); }
-        }
-        .blood-spot.clumped::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            background: radial-gradient(circle, #FF0000 0%, transparent 70%);
-            animation: pulse 1s infinite;
-        }
-        @keyframes pulse {
-            0% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-            50% { opacity: 0.5; transform: translate(-50%, -50%) scale(1.1); }
-            100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-        }
-        .serums {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin: 20px 0;
-            flex-wrap: wrap;
-        }
-        .serum {
-            width: 70px;
-            height: 70px;
-            background: #4CAF50;
-            border-radius: 10px;
-            cursor: grab;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            color: #fff;
-            user-select: none;
-            transition: transform 0.2s;
-            font-size: 0.9em;
-        }
-        .serum:hover {
-            transform: scale(1.1);
-        }
-        .serum:active {
-            cursor: grabbing;
-        }
-        .results {
-            margin-top: 20px;
-        }
-        .result-item {
-            margin: 10px 0;
-            font-size: 1.2em;
-        }
-        .guess-section {
-            margin-top: 30px;
-        }
-        .guess-section input {
+        .transfusion select {
             padding: 10px;
             font-size: 1em;
             border-radius: 5px;
             border: none;
-            margin: 0 10px;
+            margin: 10px;
+            width: 200px;
         }
-        .guess-section button {
-            background: #FF5722;
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1em;
-            transition: background 0.3s;
-        }
-        .guess-section button:hover {
-            background: #E64A19;
-        }
-        .feedback {
-            margin-top: 10px;
-            font-size: 1.2em;
-            font-weight: bold;
-        }
-        button.back {
-            background: #2196F3;
+        .transfusion button {
+            background: #4CAF50;
             color: #fff;
             border: none;
             padding: 10px 20px;
@@ -155,179 +52,141 @@
             margin-top: 20px;
             transition: background 0.3s;
         }
-        button.back:hover {
-            background: #1976D2;
+        .transfusion button:hover {
+            background: #45A049;
+        }
+        .feedback {
+            margin-top: 20px;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+        .info {
+            margin-top: 20px;
+            font-size: 1.1em;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
         }
     </style>
 </head>
 <body>
-    <h1>تحديد مجموعة الدم</h1>
-    <div id="selection-page">
-        <h2>اختر شخصاً لتحديد مجموعة دمه</h2>
-        <div class="person-list">
-            <div class="person-card" data-person="1" data-name="إياد" data-blood="A+">إياد</div>
-            <div class="person-card" data-person="2" data-name="يوسف" data-blood="B-">يوسف</div>
-            <div class="person-card" data-person="3" data-name="طيبي" data-blood="O+">طيبي</div>
-            <div class="person-card" data-person="4" data-name="محمد" data-blood="AB-">محمد</div>
-            <div class="person-card" data-person="5" data-name="بدر الدين" data-blood="O-">بدر الدين</div>
-            <div class="person-card" data-person="6" data-name="وليد" data-blood="A-">وليد</div>
-            <div class="person-card" data-person="7" data-name="ياسين" data-blood="B+">ياسين</div>
-            <div class="person-card" data-person="8" data-name="إسراء" data-blood="AB+">إسراء</div>
-            <div class="person-card" data-person="9" data-name="سيرين" data-blood="O+">سيرين</div>
-            <div class="person-card" data-person="10" data-name="جهينة" data-blood="A+">جهينة</div>
-            <div class="person-card" data-person="11" data-name="هالا" data-blood="B-">هالا</div>
-            <div class="person-card" data-person="12" data-name="فاطنة" data-blood="AB-">فاطنة</div>
-            <div class="person-card" data-person="13" data-name="أحسان" data-blood="O-">أحسان</div>
-            <div class="person-card" data-person="14" data-name="رفيدة" data-blood="A-">رفيدة</div>
-            <div class="person-card" data-person="15" data-name="يوسف" data-blood="B+">يوسف</div>
-            <div class="person-card" data-person="16" data-name="إياد" data-blood="AB+">إياد</div>
-            <div class="person-card" data-person="17" data-name="بدر الدين" data-blood="O-">بدر الدين</div>
-            <div class="person-card" data-person="18" data-name="وليد" data-blood="A+">وليد</div>
-            <div class="person-card" data-person="19" data-name="أمال" data-blood="O-">أمال</div>
-        </div>
-    </div>
+    <h1>تبادل الدم (التبرع)</h1>
+    <div class="transfusion">
 
-    <div id="experiment-page" style="display: none;">
-        <h2 id="experiment-title">التجربة لـ: <span id="selected-person"></span></h2>
-        <div class="experiment">
-            <div class="blood-spot" id="blood-spot"></div>
-            <div class="serums">
-                <div class="serum" data-type="مصل A+" draggable="true">مصل A+</div>
-                <div class="serum" data-type="مصل A-" draggable="true">مصل A-</div>
-                <div class="serum" data-type="مصل B+" draggable="true">مصل B+</div>
-                <div class="serum" data-type="مصل B-" draggable="true">مصل B-</div>
-                <div class="serum" data-type="مصل AB+" draggable="true">مصل AB+</div>
-                <div class="serum" data-type="مصل AB-" draggable="true">مصل AB-</div>
-                <div class="serum" data-type="مصل O+" draggable="true">مصل O+</div>
-                <div class="serum" data-type="مصل O-" draggable="true">مصل O-</div>
-            </div>
-            <div class="results" id="results"></div>
-            <div class="guess-section">
-                <label>خمن مجموعة الدم (مثل A+, B-, O+):</label>
-                <input type="text" id="guess-input" placeholder="اكتب هنا">
-                <button onclick="checkGuess()">تحقق</button>
-                <div class="feedback" id="feedback"></div>
-            </div>
-            <button class="back" onclick="goBack()">العودة للاختيار</button>
+        <label>اختر المتبرع:</label>
+        <select id="donor-select">
+            <option value="">اختر...</option>
+            <option value="iyad">إياد (A+)</option>
+            <option value="youssf">يوسف (B-)</option>
+            <option value="taybi">طيبي (O+)</option>
+            <option value="mohamed">محمد (AB-)</option>
+            <option value="badr">بدر الدين (O-)</option>
+            <option value="walid">وليد (A-)</option>
+            <option value="yassin">ياسين (B+)</option>
+            <option value="israa">إسراء (A-)</option>
+            <option value="sirin">سيرين (B+)</option>
+            <option value="juhaina">جهينة (AB+)</option>
+            <option value="hala">هالا (O+)</option>
+            <option value="fatna">فاطنة (A+)</option>
+            <option value="ihssan">إحسان (B-)</option>
+            <option value="roufayda">رفيدة (AB-)</option>
+            <option value="amal">أمال (O-)</option>
+        </select>
+        <br>
+
+        <label>اختر المتلقي:</label>
+        <select id="recipient-select">
+            <option value="">اختر...</option>
+            <option value="iyad">إياد (A+)</option>
+            <option value="youssf">يوسف (B-)</option>
+            <option value="taybi">طيبي (O+)</option>
+            <option value="mohamed">محمد (AB-)</option>
+            <option value="badr">بدر الدين (O-)</option>
+            <option value="walid">وليد (A-)</option>
+            <option value="yassin">ياسين (B+)</option>
+            <option value="israa">إسراء (A-)</option>
+            <option value="sirin">سيرين (B+)</option>
+            <option value="juhaina">جهينة (AB+)</option>
+            <option value="hala">هالا (O+)</option>
+            <option value="fatna">فاطنة (A+)</option>
+            <option value="ihssan">إحسان (B-)</option>
+            <option value="roufayda">رفيدة (AB-)</option>
+            <option value="amal">أمال (O-)</option>
+        </select>
+        <br>
+
+        <button onclick="checkTransfusion()">تحقق التوافق</button>
+        <div class="feedback" id="transfusion-feedback"></div>
+
+        <div class="info">
+            <strong>معلومة:</strong>  
+            A- يمكنه التبرع لـ A+ و A- و AB+ و AB-  
+            O- يمكنه التبرع للجميع  
+            AB+ يمكنه استقبال من الجميع  
         </div>
     </div>
 
     <script>
-        const bloodTypes = {
-            1: 'A+',
-            2: 'B-',
-            3: 'O+',
-            4: 'AB-',
-            5: 'O-',
-            6: 'A-',
-            7: 'B+',
-            8: 'AB+',
-            9: 'O+',
-            10: 'A+',
-            11: 'B-',
-            12: 'AB-',
-            13: 'O-',
-            14: 'A-',
-            15: 'B+',
-            16: 'AB+',
-            17: 'O-',
-            18: 'A+',
-            19: 'O-' // أمال
+        const persons = {
+            iyad: 'A+',
+            youssf: 'B-',
+            taybi: 'O+',
+            mohamed: 'AB-',
+            badr: 'O-',
+            walid: 'A-',
+            yassin: 'B+',
+            israa: 'A-',
+            sirin: 'B+',
+            juhaina: 'AB+',
+            hala: 'O+',
+            fatna: 'A+',
+            ihssan: 'B-',
+            roufayda: 'AB-',
+            amal: 'O-'
         };
 
-        const reactions = {
-            'A+': {'مصل A+': false,'مصل A-': false,'مصل B+': true,'مصل B-': true,'مصل AB+': false,'مصل AB-': false,'مصل O+': true,'مصل O-': true},
-            'A-': {'مصل A+': false,'مصل A-': true,'مصل B+': true,'مصل B-': true,'مصل AB+': false,'مصل AB-': false,'مصل O+': true,'مصل O-': true},
-            'B+': {'مصل A+': true,'مصل A-': true,'مصل B+': false,'مصل B-': false,'مصل AB+': false,'مصل AB-': false,'مصل O+': true,'مصل O-': true},
-            'B-': {'مصل A+': true,'مصل A-': true,'مصل B+': false,'مصل B-': true,'مصل AB+': false,'مصل AB-': false,'مصل O+': true,'مصل O-': true},
-            'AB+': {'مصل A+': true,'مصل A-': true,'مصل B+': true,'مصل B-': true,'مصل AB+': false,'مصل AB-': false,'مصل O+': true,'مصل O-': true},
-            'AB-': {'مصل A+': true,'مصل A-': true,'مصل B+': true,'مصل B-': true,'مصل AB+': false,'مصل AB-': false,'مصل O+': true,'مصل O-': true},
-            'O+': {'مصل A+': false,'مصل A-': false,'مصل B+': false,'مصل B-': false,'مصل AB+': false,'مصل AB-': false,'مصل O+': false,'مصل O-': false},
-            'O-': {'مصل A+': false,'مصل A-': true,'مصل B+': false,'مصل B-': true,'مصل AB+': false,'مصل AB-': false,'مصل O+': false,'مصل O-': true}
+        const compatibility = {
+            'O-': ['O-', 'O+', 'A-', 'A+', 'B-', 'B+', 'AB-', 'AB+'],
+            'O+': ['O+', 'A+', 'B+', 'AB+'],
+            'A-': ['A-', 'A+', 'AB-', 'AB+'],
+            'A+': ['A+', 'AB+'],
+            'B-': ['B-', 'B+', 'AB-', 'AB+'],
+            'B+': ['B+', 'AB+'],
+            'AB-': ['AB-', 'AB+'],
+            'AB+': ['AB+']
         };
 
-        let selectedPerson = null;
-        let draggedElement = null;
-        let testResults = {};
+        function checkTransfusion() {
+            const donor = document.getElementById("donor-select").value;
+            const recipient = document.getElementById("recipient-select").value;
+            const result = document.getElementById("transfusion-feedback");
 
-        document.querySelectorAll('.person-card').forEach(card => {
-            card.addEventListener('click', () => {
-                selectedPerson = card.dataset.person;
-                document.getElementById('selected-person').textContent = card.dataset.name;
-                document.getElementById('selection-page').style.display = 'none';
-                document.getElementById('experiment-page').style.display = 'block';
-                resetExperiment();
-            });
-        });
-
-        function resetExperiment() {
-            document.getElementById('blood-spot').classList.remove('clumped');
-            document.getElementById('results').innerHTML = '';
-            document.getElementById('guess-input').value = '';
-            document.getElementById('feedback').textContent = '';
-            testResults = {};
-        }
-
-        document.addEventListener('dragstart', (e) => {
-            if (e.target.classList.contains('serum')) {
-                draggedElement = e.target;
+            if (!donor || !recipient) {
+                result.textContent = "يرجى اختيار المتبرع والمتلقي.";
+                result.style.color = "#FFEB3B";
+                return;
             }
-        });
 
-        document.addEventListener('dragover', (e) => {
-            e.preventDefault();
-        });
-
-        document.addEventListener('drop', (e) => {
-            e.preventDefault();
-            if (draggedElement && e.target.id === 'blood-spot') {
-                const bloodSpot = e.target;
-                const bloodType = bloodTypes[selectedPerson];
-                const serumType = draggedElement.dataset.type;
-                const shouldClump = reactions[bloodType][serumType];
-                testResults[serumType] = shouldClump;
-                if (shouldClump) {
-                    bloodSpot.classList.add('clumped');
-                    setTimeout(() => bloodSpot.classList.remove('clumped'), 2000);
-                }
-                updateResults();
+            if (donor === recipient) {
+                result.textContent = "لا يمكن للشخص التبرع لنفسه.";
+                result.style.color = "#F44336";
+                return;
             }
-        });
 
-        function updateResults() {
-            const resultsDiv = document.getElementById('results');
-            resultsDiv.innerHTML = '';
-            for (const [serum, clumped] of Object.entries(testResults)) {
-                const div = document.createElement('div');
-                div.className = 'result-item';
-                div.textContent = `${serum}: ${clumped ? 'تكتل' : 'لا تكتل'}`;
-                resultsDiv.appendChild(div);
-            }
-        }
+            const donorType = persons[donor];
+            const recipientType = persons[recipient];
 
-        function checkGuess() {
-            const guess = document.getElementById('guess-input').value.trim().toUpperCase();
-            const actual = bloodTypes[selectedPerson];
-            const feedback = document.getElementById('feedback');
-            if (guess === actual) {
-                feedback.textContent = 'ممتاز! إجابة صحيحة.';
-                feedback.style.color = '#4CAF50';
+            const allowed = compatibility[donorType].includes(recipientType);
+
+            if (allowed) {
+                result.textContent = `✔ نعم، ${donorType} يمكنه التبرع لـ ${recipientType}.`;
+                result.style.color = "#4CAF50";
             } else {
-                feedback.textContent = `خطأ. المجموعة الصحيحة هي: ${actual}`;
-                feedback.style.color = '#F44336';
+                result.textContent = `✖ لا، ${donorType} لا يمكنه التبرع لـ ${recipientType}.`;
+                result.style.color = "#F44336";
             }
-        }
-
-        function goBack() {
-            document.getElementById('experiment-page').style.display = 'none';
-            document.getElementById('selection-page').style.display = 'block';
         }
     </script>
-</body>
-</html>
 
-  <script>
-    
-  </script>
 </body>
 </html>
